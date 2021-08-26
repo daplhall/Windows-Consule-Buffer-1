@@ -15,41 +15,30 @@
     This sets the active screen buffer to a wchar sequence. 
         SetConsoleActiveScreenBuffer
 */
+#include <random>
 
-int main(int argc, char *argv[]){
-    int a;
-    wCanva canva;
-    if (!canva.CreateScreen(120,40)){ return 1; }
-    canva.TestCanva();
-    std::cin>>a;
-    return 0;
-}
-
-
-/*
-int main(int argc, char *argv[]){
-    int a;
-    short ScreenWidth       = 120;
-    short ScreenHeight      = 40;
-    int   ScreenArrayLength =  ScreenWidth*ScreenHeight;
-    COORD coord             = {ScreenWidth, ScreenHeight};
-    SMALL_RECT m_rectWindow = { 0, 0, 1, 1};
-    DWORD dwByteWritten     = 0;
-    wchar_t *screen = new wchar_t[ScreenArrayLength]; // 80*30 must be width and hight?
-
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleWindowInfo(hConsole, true, &m_rectWindow); // This gives a buffer size error, but that deosn't stop the program!
-    if (!SetConsoleScreenBufferSize(hConsole, coord)){
-        std::cout << "Buffer size Error" << std::endl;
+class canvas : public wCanva
+{
+    bool UserInit() override{   
+        return true;
     }
-    if (!SetConsoleActiveScreenBuffer(hConsole)){
-        std::cout << "Active Buffer Error" << std::endl;    
-    } // sets the active console to hConsole
-    m_rectWindow = {0, 0, ScreenWidth - 1, ScreenHeight - 1};
-    SetConsoleWindowInfo(hConsole, true, &m_rectWindow);
-    screenTest(screen, ScreenArrayLength);
-    WriteConsoleOutputCharacterW(hConsole, screen, ScreenArrayLength, {0,0}, &dwByteWritten);
-    std::cin>>a;
+    bool UserClean() override{
+        return true;
+    }
+
+    bool UserTick(float dt) override{
+        return true;
+    }
+};
+
+
+int main(int argc, char *argv[]){
+    int a;
+    canvas canva;
+    if (canva.CreateScreen(120,40)){ return 1; }
+    //canva.TestCanva();
+    canva.Fill(0xDB, rand()%256);
+    canva.RunThread();
+    std::cin >> a;
     return 0;
 }
-*/

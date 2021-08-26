@@ -15,17 +15,27 @@
 
 class wCanva{
       protected:
-            HANDLE   m_hConsole, m_hOriginalConsole;
-            short    m_ScreenHeight;
-            short    m_ScreenWidth;
-            int      m_ScreenArrayLength;
-            wchar_t *m_Screen = NULL; // NULL = const 0. This is set to NULL (0), such that we can check if the pointer is empty 
+            SMALL_RECT m_rectWindow;
+            HANDLE     m_hConsole, m_hOriginalConsole;
+            short      m_ScreenHeight;
+            short      m_ScreenWidth;
+            int        m_ScreenArrayLength;
+            CHAR_INFO *m_Screen = NULL; // NULL = const 0. This is set to NULL (0), such that we can check if the pointer is empty 
+            bool       m_EngineActive;
       public:
             wCanva();
             wCanva(short width, short height);
             ~wCanva();
             int CreateScreen(short width, short height); // Also need one for font size.
             int TestCanva();
+            int Fill(int const xstart, int const ystart, short const chr, short const color);
+            int Draw(int const i, int const j, short chr, short color);
+
+            void RunThread();
+            void Start();
+            virtual bool UserInit () = 0;
+            virtual bool UserTick (float dt) = 0;
+            virtual bool UserClean() = 0;
 };
 
 #endif

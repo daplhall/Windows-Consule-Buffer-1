@@ -5,7 +5,7 @@ DBIN_DIR := ./bin/debug
 OBJ_DIR  := ./obj/release
 DOBJ_DIR := ./obj/debug
 
-EXE      := buffer.out
+EXE      := buffer.exe
 
 CC       := g++
 LINKER   := g++
@@ -30,7 +30,7 @@ debug: $(DBIN_DIR)/$(EXE)
 $(DBIN_DIR)/$(EXE): $(DOBJECTS)
 	$(LINKER) $(DOBJECTS) -o $@
 
-$(DOBJECTS): $(DOBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
+$(DOBJECTcS): $(DOBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 	$(CC) $(CPPFLAGS) $(DBFLAG) -c $< -o $@
 
 # RELEASE
@@ -42,13 +42,3 @@ $(OBJECTS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 #####
 clean:
 	rm $(OBJECTS) $(DOBJECTS) $(BIN_DIR)/$(EXE) $(DBIN_DIR)/$(EXE)
-
-
-run: $(BIN_DIR)/$(EXE)
-	$(BIN_DIR)/$(EXE)
-
-drun: $(DBIN_DIR)/$(EXE)
-	$(DBIN_DIR)/$(EXE)
-
-plot:
-	python visual.py -path ./data/
